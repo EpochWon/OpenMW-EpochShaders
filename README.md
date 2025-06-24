@@ -18,6 +18,8 @@ Very WIP. 0.49 only
 
 These shaders focus more on aesthetic rather than realism, especially the water shader changes which might not be to everyone's taste, if you don't like the water you can skip copying the file, or if you want the water without anything else its standalone.
 
+Performance wise the shadows are the heaviest, and can kill your frames in certain situations (like a lot of transparency), you can tweak a few settings at the top of the ``shadows_fragment.glsl`` file. I've tweaked them to appear softer but because of how OpenMW's shadows work the blur size will change based on your view angle. 
+
 <h2>Recommened Post Process Shaders</h2>
 This is the setup I use, its fairly minimal, in the order its applied: 
 
