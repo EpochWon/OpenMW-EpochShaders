@@ -16,7 +16,7 @@
 
 const float VISIBILITY = 2500.0;
 const float VISIBILITY_DEPTH = VISIBILITY * 1.5;
-const float DEPTH_FADE = 0.15;
+const float DEPTH_FADE = 0.25;
 
 const vec2 BIG_WAVES = vec2(0.1, 0.1); // strength of big waves
 const vec2 MID_WAVES = vec2(0.1, 0.1); // strength of middle sized waves
@@ -39,7 +39,7 @@ const vec3 SUN_EXT = vec3(0.45, 0.55, 0.68);       // sunlight extinction
 #endif
 
 const float SUN_SPEC_FADING_THRESHOLD = 0.15;       // visibility at which sun specularity starts to fade
-const float SPEC_HARDNESS = 1024.0;                 // specular highlights hardness
+const float SPEC_HARDNESS = 10.0;                 // specular highlights hardness
 
 const float BUMP_SUPPRESS_DEPTH = 300.0;           // at what water depth bumpmap will be suppressed for reflections and refractions (prevents artifacts at shores)
 const float REFR_FOG_DISTORT_DISTANCE = 3000.0;    // at what distance refraction fog will be calculated using real water depth instead of distorted depth (prevents splotchy shores)
@@ -161,7 +161,11 @@ void main(void)
     sunSpec.a = min(1.0, sunSpec.a / SUN_SPEC_FADING_THRESHOLD);
 
     // specular
-    float specular = pow(max(dot(reflect(viewDir, normal), sunWorldDir), 0.0), SPEC_HARDNESS) * shadow * sunSpec.a;
+    //float specular = pow(max(dot(reflect(viewDir, normal), sunWorldDir), 0.0), SPEC_HARDNESS) * shadow * sunSpec.a;
+
+    vec3 R = reflect(viewDir, normalize(vec3(normal.x * 5.0, normal.y * 5.0, normal.z)));
+    float specular = clamp(pow(atan(max(dot(R, sunWorldDir),0.0)*1.55),1000.0)*SPEC_HARDNESS*8.0,0.0,1.0)* shadow * sunSpec.a;
+
 
     // artificial specularity to make rain ripples more noticeable
     vec3 skyColorEstimate = vec3(max(0.0, mix(-0.3, 1.0, sunFade)));
@@ -198,7 +202,7 @@ void main(void)
                           normal3 * midWaves.y * 0.2 + normal4 * smallWaves.x * 0.1 + normal5 * smallWaves.y * 0.1 + rippleAdd);
     scatterNormal = normalize(vec3(-scatterNormal.xy * bump, scatterNormal.z));
     float sunHeight = sunWorldDir.z;
-    vec3 scatterColour = mix(SCATTER_COLOUR * vec3(1.0, 0.4, 0.0), SCATTER_COLOUR, max(1.0 - exp(-sunHeight * SUN_EXT), 0.0));
+    vec3 scatterColour = mix(SCATTER_COLOUR * vec3(1.0, 0.4, 0.0), SCATTER_COLOUR, max(1.0 - exp(-sunHeight * SUN_EXT), 0.0)) * shadow;
     float scatterLambert = max(dot(sunWorldDir, scatterNormal) * 0.7 + 0.3, 0.0);
     float scatterReflectAngle = max(dot(reflect(sunWorldDir, scatterNormal), viewDir) * 2.0 - 1.2, 0.0);
     float lightScatter = scatterLambert * scatterReflectAngle * SCATTER_AMOUNT * sunFade * sunSpec.a * max(1.0 - exp(-sunHeight), 0.0);
