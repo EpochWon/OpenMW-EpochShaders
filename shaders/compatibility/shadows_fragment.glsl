@@ -1,9 +1,7 @@
 #define SHADOWS @shadows_enabled
 
 #define SHADOWMAP_RES (1024.0)
-#if !defined(FORCE_OPAQUE)
-    #define FILTER_SIZE 1
-#elif defined(GROUNDCOVER)
+#if defined(GROUNDCOVER)
     #define FILTER_SIZE 3
 #else
     #define FILTER_SIZE 8
