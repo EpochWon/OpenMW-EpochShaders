@@ -10,7 +10,7 @@ Very WIP. 0.49 only
 
 <h2>Features:</h2>
 
-- Soft Shadows (Credits to Wareya, I didn't make them)
+- Soft Shadows (Credits to Wareya, I didn't make them). Edit ``shadows_fragment.glsl`` to match your shadow resolution.
 - Very basic indirect hemisphere lighting for ambient
 - Energy conserving blinn-phong specular, only applied when there is no custom specular power detected in the texture, requires specular maps still. I probably did the math wrong
 - Elongated specular highlight for water, re-ported (backported? Forwardported?) from the original Blender shader
@@ -18,7 +18,7 @@ Very WIP. 0.49 only
 
 These shaders focus more on aesthetic rather than realism, especially the water shader changes which might not be to everyone's taste, if you don't like the water you can skip copying the file, or if you want the water without anything else its standalone.
 
-Performance wise the shadows are the heaviest, and can kill your frames in certain situations (like a lot of transparency), you can tweak a few settings at the top of the ``shadows_fragment.glsl`` file. I've tweaked them to appear softer but because of how OpenMW's shadows work the blur size will change based on your view angle. 
+Performance wise the shadows are the heaviest, and can kill your frames in certain situations (like a lot of transparency), you can tweak a few settings at the top of the ``shadows_fragment.glsl`` file.
 
 <h2>Recommened Post Process Shaders</h2>
 This is the setup I use, its fairly minimal, in the order its applied: 
