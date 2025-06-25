@@ -1,7 +1,13 @@
 #define SHADOWS @shadows_enabled
 
 #define SHADOWMAP_RES (1024.0)
-#define FILTER_SIZE 8
+#if !defined(FORCE_OPAQUE)
+    #define FILTER_SIZE 1
+#elif defined(GROUNDCOVER)
+    #define FILTER_SIZE 3
+#else
+    #define FILTER_SIZE 8
+#endif
 // make it look more like natural sun radius smoothing
 // also saves a couple samples and improves performance slightly on modern GPUs
 #define DO_CIRCULAR 1
