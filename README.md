@@ -12,7 +12,7 @@ Very WIP. 0.49 only
 
 - Soft Shadows (Credits to Wareya, I didn't make them)
 - Very basic indirect hemisphere lighting for ambient
-- Energy conserving blinn-phong specular, only applied when there is no custom specular power detected in the texture. I probably did the math wrong
+- Energy conserving blinn-phong specular, only applied when there is no custom specular power detected in the texture, requires specular maps still. I probably did the math wrong
 - Elongated specular highlight for water, re-ported (backported? Forwardported?) from the original Blender shader
 - Water sunlight scattering is now masked by shadows
 
