@@ -38,8 +38,10 @@ const vec3 SCATTER_COLOUR = vec3(0.0,1.0,0.95);    // colour of sunlight scatter
 const vec3 SUN_EXT = vec3(0.45, 0.55, 0.68);       // sunlight extinction
 #endif
 
-const float SUN_SPEC_FADING_THRESHOLD = 0.15;       // visibility at which sun specularity starts to fade
-const float SPEC_HARDNESS = 10.0;                 // specular highlights hardness
+const float SUN_SPEC_FADING_THRESHOLD = 0.15;      // visibility at which sun specularity starts to fade
+const float SPEC_HARDNESS = 256.0;                 // specular highlights hardness
+const float SPEC_BUMPINESS = 5.0;				   // surface bumpiness boost for specular
+const float SPEC_BRIGHTNESS = 1.5;				   // boosts the brightness of the specular highlights
 
 const float BUMP_SUPPRESS_DEPTH = 300.0;           // at what water depth bumpmap will be suppressed for reflections and refractions (prevents artifacts at shores)
 const float REFR_FOG_DISTORT_DISTANCE = 3000.0;    // at what distance refraction fog will be calculated using real water depth instead of distorted depth (prevents splotchy shores)
@@ -163,8 +165,8 @@ void main(void)
     // specular
     //float specular = pow(max(dot(reflect(viewDir, normal), sunWorldDir), 0.0), SPEC_HARDNESS) * shadow * sunSpec.a;
 
-    vec3 R = reflect(viewDir, normalize(vec3(normal.x * 5.0, normal.y * 5.0, normal.z)));
-    float specular = clamp(pow(atan(max(dot(R, sunWorldDir),0.0)*1.55),1000.0)*SPEC_HARDNESS*8.0,0.0,1.0)* shadow * sunSpec.a;
+    vec3 R = reflect(viewDir, normalize(vec3(normal.x * SPEC_BUMPINESS, normal.y * SPEC_BUMPINESS, normal.z)));
+	float specular = clamp(pow(atan(max(dot(R, sunWorldDir), 0.0) * 1.55), SPEC_HARDNESS) * SPEC_BRIGHTNESS, 0.0, 1.0) * shadow * sunSpec.a;
 
 
     // artificial specularity to make rain ripples more noticeable
