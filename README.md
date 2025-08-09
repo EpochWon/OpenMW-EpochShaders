@@ -13,7 +13,7 @@ Very WIP. 0.49 only
 - Soft Shadows (Credits to Wareya, I didn't make them). Edit ``shadows_fragment.glsl`` to match your shadow resolution, or set it lower for fuzzier shadows.
 - Very basic indirect hemisphere lighting for ambient
 - Energy conserving blinn-phong specular, only applied when there is no custom specular power detected in the texture, requires specular maps still. I probably did the math wrong
-- Elongated specular highlight for water, re-ported (backported? Forwardported?) from the original Blender shader
+- Elongated specular highlight for water, re-ported (backported? Forwardported?) from the original Blender shader (Now part of OpenMW proper with 0.50)
 - Water sunlight scattering is now masked by shadows
 
 These shaders focus more on aesthetic rather than realism, especially the water shader changes which might not be to everyone's taste, if you don't like the water you can skip copying the file, or if you want the water without anything else its standalone.
